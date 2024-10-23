@@ -3,6 +3,9 @@
 @section('title', 'Tramites')
 
 @section('content')
+    @php
+        use Carbon\Carbon;
+    @endphp
 <h1>Tramites</h1>
  <h5>Listado de tramites</h5>
  <hr>

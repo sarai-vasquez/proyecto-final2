@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-6">
                     Nombre
-                    <input type="text" class="form-control" name="nombre" value="{{ $departamento->nombre }}">
+                    <input type="text" pattern="[A-Za-z]+" class="form-control" name="nombre" value="{{ $departamento->nombre }}">
                     @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-6">
                     Jefe
-                    <input type="text" class="form-control" name="jefe" value="{{ $departamento->jefe }}">
+                    <input type="text" pattern="[A-Za-z/s]+" class="form-control" name="jefe" value="{{ $departamento->jefe }}">
                     @error('jefe')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>

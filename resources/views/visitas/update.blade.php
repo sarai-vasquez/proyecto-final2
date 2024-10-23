@@ -12,13 +12,13 @@
     <h5>Formulario para modificar visitas</h5>
     <hr>
     <div class="container">
-        <form action="/visitas/edit/{{$visitas->codigo }}" method="POST">
+        <form action="/visitas/update/{{$visitas->codigo }}" method="POST">
             @csrf
             @method('PUT')
             <div class="row">
             <div class="col-6">
                     fechaEntrada 
-                    <input type="text" class="form-control" name="fechaEntrada" value="{{$visitas->fechaEntrada }}">
+                    <input type="datetime-local" class="form-control" name="fechaEntrada" value="{{$visitas->fechaEntrada }}">
                     @error('fechaEntrada') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-6">
                     FechaSalida
-                    <input type="text" class="form-control" name="fechaSalida" value="{{$visitas->fechaSalida }}">
+                    <input type="datetime-local" class="form-control" name="fechaSalida" value="{{$visitas->fechaSalida }}">
                     @error('fechaSalida') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-6">
                     Motivo
-                    <input type="text" class="form-control" name="motivo" value="{{$visitas->motivo }}">
+                    <input type="text" pattern="[A-Za-z/s]+" class="form-control" name="motivo" value="{{$visitas->motivo }}">
                     @error('motivo') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>

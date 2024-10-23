@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-6">
                     Nombre
-                    <input type="text" class="form-control" name="nombre" value="{{$visitantes->nombre }}">
+                    <input type="text" pattern="[A-Za-z/s]+" class="form-control" name="nombre" value="{{$visitantes->nombre }}">
                     @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-6">
                     Identificacion
-                    <input type="text" class="form-control" name="identificacion" value="{{$visitantes->identificacion }}">
+                    <input type="text" pattern="[0-9]{8}-[0-9]{1}" class="form-control" name="identificacion" value="{{$visitantes->identificacion}}">
                     @error('identificacion')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-6">
                     Telefono
-                    <input type="tel" pattern="[0-9]{8}" class="form-control" name="telefono"  value="{{$visitantes->telefono }} " >
+                    <input type="tel" pattern="[0-9]{8}" class="form-control" name="telefono"  value="{{$visitantes->telefono}} " >
                     @error('telefono')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-6">
                     Correo
-                    <input type="email" class="form-control" name="correo" value="{{$visitantes->correo }}">
+                    <input type="email" class="form-control" name="correo" value="{{$visitantes->correo}}">
                     @error('correo')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>

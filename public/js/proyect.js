@@ -16,12 +16,12 @@ const destroy = function(e) {
                 request.setRequestHeader('X-CSRF-TOKEN', token); 
 
                 request.onload = () => { 
-                    if(request.status==200)
+                    if(request.status == 200)
                     { 
                         e.closest('tr').remove();
                         Swal.fire({ 
                             icon:'success', 
-                            text: 'Producto eliminado'
+                            text: 'Elemento eliminado'
                         });
                     }
                 } ;

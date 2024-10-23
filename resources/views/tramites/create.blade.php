@@ -77,5 +77,15 @@
                 <button class="btn btn-primary">Guardar</button>
             </div>
         </form>
+        <script>
+            function validateForm() {
+                const value = document.getElementById('tipo').value;
+                if (/[^a-zA-Z\s]/.test(value)) {
+                    alert('Solo se permiten letras y espacios');
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </div>
 @endsection

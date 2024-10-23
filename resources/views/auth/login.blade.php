@@ -1,73 +1,116 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-info">
-                <div class="card-header bg-info-subtle">{{ __('Login') }}</div>
+<div class="d-flex align-items-center min-vh-100" style="background: url('/path/to/your/background.jpg') no-repeat center center/cover;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-3 bg-opacity">
+                    <div class="card-header bg-gradient-primary text-white text-center py-4">
+                        <h4 class="mb-0">{{ __('Login') }}</h4>
+                    </div>
 
-                <div class="card-body bg-primary-subtle">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                    <div class="card-body p-5">
+                        <form method="POST" action="{{ route('login') }}" id="loginForm">
+                            @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
+                            <div class="form-floating mb-4">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
+                                <label for="email">{{ __('Email Address') }}</label>
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+                            <div class="form-floating mb-4">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
+                                <label for="password">{{ __('Password') }}</label>
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
+                            <div class="form-group form-check mb-4">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="remember">
+                                    {{ __('Remember Me') }}
+                                </label>
                             </div>
-                        </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="d-grid mb-3">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block animate-button">
+                                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
                             </div>
-                        </div>
-                    </form>
+                            @if (Route::has('password.request'))
+                                <a class="d-block text-center text-decoration-none mt-2" href="{{ route('password.request') }}">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            @endif
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(45deg, #007bff, #6610f2);
+    }
+
+    .bg-opacity {
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 10px;
+    }
+
+    .animate-button {
+        position: relative;
+        overflow: hidden;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .animate-button.loading .spinner-border {
+        display: inline-block !important;
+    }
+
+    .form-floating label {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #181269;
+    }
+
+    .card-body {
+        background: #bbc0fc;
+    }
+
+    .min-vh-100 {
+        min-height: 100vh;
+    }
+</style>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.classList.add('loading', 'disabled');
+        submitButton.querySelector('.spinner-border').classList.remove('d-none');
+        submitButton.innerHTML = 'Logging in...';
+
+        // Simulate a delay for demo purposes
+        setTimeout(() => {
+            this.submit();
+        }, 1500);
+    });
+</script>
 @endsection

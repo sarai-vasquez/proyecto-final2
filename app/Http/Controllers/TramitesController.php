@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Tramites;
 use App\Models\Visitas;
 use App\Models\Estado;
@@ -9,6 +10,10 @@ use Illuminate\Http\Request;
 
 class TramitesController extends Controller
 {
+    public function __construct() 
+    { 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -23,9 +28,10 @@ class TramitesController extends Controller
             "visitas.motivo as visita",
             "estado.nombre as estado"
         )
-        ->join("visitas", "visitas.motivo", "=", "tramites.visita") 
+        ->join("visitas", "visitas.codigo", "=", "tramites.visita") 
         ->join("estado", "estado.codigo", "=", "tramites.estado") 
         ->get();
+        
         return view('/tramites/show')->with(['tramites' => $tramites]); 
     }
 
@@ -45,7 +51,7 @@ class TramitesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'tipo'=> 'required',
+            'tipo'=> 'required|regex:/^[\pL\s]+$/u',
             'fechaInicio'=> 'required',
             'fechaFin'=> 'required',
             'descripcion'=> 'required',
@@ -80,7 +86,7 @@ class TramitesController extends Controller
     public function update(Request $request, Tramites $tramites)
     {
         $data = request()->validate([
-            'tipo'=> 'required',
+            'tipo'=> 'required|regex:/^[\pL\s]+$/u',
             'fechaInicio'=> 'required',
             'fechaFin'=> 'required',
             'descripcion'=> 'required',
@@ -94,7 +100,7 @@ class TramitesController extends Controller
         $tramites->descripcion = $data['descripcion'];
         $tramites->visita = $data['visita'];
         $tramites->estado = $data['estado'];
-        $tramites->update_at = now();
+        $tramites->updated_at = now();
 
         $tramites->save();
         return redirect('/tramites/show');

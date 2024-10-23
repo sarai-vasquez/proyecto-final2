@@ -12,13 +12,13 @@
     <h5>Formulario para modificar tramites</h5>
     <hr>
     <div class="container">
-        <form action="/tramites/edit/{{$tramites->codigo}}" method="POST">
+        <form action="/tramites/update/{{$tramites->codigo}}" method="POST">
             @csrf
             @method('PUT')
             <div class="row">
                 <div class="col-6">
                     Tipo
-                    <input type="text" class="form-control" name="tipo" value="{{$tramites->tipo}}">
+                    <input type="text" pattern="[A-Za-z/s]+" class="form-control" name="tipo" value="{{$tramites->tipo}}">
                     @error('tipo')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>
@@ -54,7 +54,11 @@
                 </div>
                 <div class="col-6">
                     Visita 
-                    <input type="text" class="form-control" name="visita" value="{{$tramites->visita}}">
+                    <select name="visita" id="" class="form-control"> 
+                        @foreach ($visita as $item)  
+                            <option value="{{$item->codigo}}">{{$item->motivo}}</option> 
+                        @endforeach   
+                    </select> 
                     @error('visita') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -63,7 +67,11 @@
                 </div>
                 <div class="col-6">
                     Estado 
-                    <input type="text" class="form-control" name="estado" value="{{$tramites->estado}}">
+                    <select name="estado" id="" class="form-control"> 
+                        @foreach ($estado as $item)  
+                            <option value="{{$item->codigo}}">{{$item->nombre}}</option> 
+                        @endforeach   
+                    </select> 
                     @error('estado') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>

@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-6">
                     Motivo
-                    <input type="text" class="form-control" name="motivo">
+                    <input type="text" pattern="[A-Za-z/s]+" class="form-control" name="motivo">
                     @error('motivo') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>

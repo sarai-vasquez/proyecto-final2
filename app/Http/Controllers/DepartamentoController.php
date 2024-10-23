@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class DepartamentoController extends Controller
 {
+    public function __construct() 
+    { 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -40,9 +44,9 @@ class DepartamentoController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'nombre'=> 'required',
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
             'ubicacion'=> 'required',
-            'jefe'=> 'required',
+            'jefe'=> 'required|regex:/^[\pL\s]+$/u',
             'numeroEmpleados'=> 'required',
         ]);
         Departamento::create($data);
@@ -71,21 +75,22 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request, Departamento $departamento)
     {
+        
         $data = request()->validate([
-            'nombre' => 'required',
-            'ubicacion '=> 'required',
-            'jefe' => 'required',
-            'numeroEmpleados' => 'required'
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
+            'ubicacion'=> 'required',
+            'jefe'=> 'required|regex:/^[\pL\s]+$/u',
+            'numeroEmpleados'=> 'required',
         ]);
-
+       // die("pase la validacion");
         $departamento->nombre = $data['nombre'];
         $departamento->ubicacion = $data['ubicacion'];
         $departamento->jefe = $data['jefe'];
         $departamento->numeroEmpleados = $data['numeroEmpleados'];
         $departamento->updated_at = now();
-
+        //die("datos recibidos ". $departamento);
         $departamento->save();
-
+        //die("si se esta guardando el cambio controlador");
         return redirect('departamento/show');
     }
 

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class EmpleadosController extends Controller
 {
+    public function __construct() 
+    { 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -39,7 +43,7 @@ class EmpleadosController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'nombre'=> 'required',
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
             'correo'=> 'required',
             'departamento'=> 'required',
         ]);
@@ -71,7 +75,7 @@ class EmpleadosController extends Controller
     public function update(Request $request, Empleados $empleados)
     {
         $data = request()->validate([
-            'nombre'=> 'required',
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
             'correo'=> 'required',
             'departamento'=> 'required',
         ]);

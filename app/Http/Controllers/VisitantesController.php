@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class VisitantesController extends Controller
 {
+    public function __construct() 
+    { 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -37,7 +41,7 @@ class VisitantesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'nombre'=> 'required',
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
             'identificacion'=> 'required',
             'telefono'=> 'required',
             'correo'=> 'required'
@@ -69,7 +73,7 @@ class VisitantesController extends Controller
     public function update(Request $request, Visitantes $visitantes)
     {
         $data = request()->validate([
-            'nombre'=> 'required',
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
             'identificacion'=> 'required',
             'telefono'=> 'required',
             'correo'=> 'required'

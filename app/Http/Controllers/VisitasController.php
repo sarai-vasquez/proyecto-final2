@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class VisitasController extends Controller
 {
+    public function __construct() 
+    { 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -91,7 +95,7 @@ class VisitasController extends Controller
             'empleado'=> 'required',
         ]);
 
-        $visitas->fechaEntrda = $data['fechaEntrda'];
+        $visitas->fechaEntrada = $data['fechaEntrada'];
         $visitas->fechaSalida = $data['fechaSalida'];
         $visitas->motivo = $data['motivo'];
         $visitas->visitante = $data['visitante'];

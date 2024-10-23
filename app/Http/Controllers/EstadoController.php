@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class EstadoController extends Controller
 {
+    public function __construct() 
+    { 
+        $this->middleware('auth'); 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -35,7 +39,7 @@ class EstadoController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'nombre'=> 'required',
+            'nombre'=> 'required|regex:/^[\pL\s]+$/u',
         ]);
         Estado::create($data);
 
@@ -64,7 +68,7 @@ class EstadoController extends Controller
     public function update(Request $request, Estado $estado)
     {
         $data = request()->validate([
-            'nombre' => 'required',
+            'nombre' => 'required|regex:/^[\pL\s]+$/u',
         ]);
 
         $estado->nombre = $data['nombre'];
