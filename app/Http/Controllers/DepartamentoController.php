@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Departamento;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
 
 class DepartamentoController extends Controller
 {
-    public function __construct() 
-    { 
-        $this->middleware('auth'); 
+    public function __construct(NotificationService $notificationService)
+    {
+      $this->middleware('auth'); 
+      $this->notificationService = $notificationService;
     }
     /**
      * Display a listing of the resource.
@@ -51,7 +54,8 @@ class DepartamentoController extends Controller
         ]);
         Departamento::create($data);
 
-        return redirect('departamento/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El departamento ha sido guardado por $userName.", 'departamento/show');
     }
 
     /**
@@ -91,7 +95,9 @@ class DepartamentoController extends Controller
         //die("datos recibidos ". $departamento);
         $departamento->save();
         //die("si se esta guardando el cambio controlador");
-        return redirect('departamento/show');
+
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El departamento ha sido modificado por $userName.", 'departamento/show');
     }
 
     /**

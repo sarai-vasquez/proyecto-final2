@@ -8,6 +8,7 @@ use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\TramitesController;
 use App\Http\Controllers\VisitasController;
 use App\Http\Controllers\VisitantesController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/home', function () {
     return view('home');
@@ -19,7 +20,6 @@ Route::post('/departamento/store', [DepartamentoController::class, 'store']);
 Route::get('departamento/edit/{departamento}', [DepartamentoController::class, 'edit']);   
 Route::put('departamento/update/{departamento}', [DepartamentoController::class, 'update']); 
 Route::delete('/departamento/destroy/{id}', [DepartamentoController::class, 'destroy']);
-
 
 Route::get('/empleados/show', [EmpleadosController::class, 'index']); 
 Route::get('/empleados/create', [EmpleadosController::class, 'create']);
@@ -56,6 +56,12 @@ Route::get('visitantes/edit/{visitantes}', [VisitantesController::class, 'edit']
 Route::put('visitantes/update/{visitantes}', [VisitantesController::class, 'update']); 
 Route::delete('visitantes/destroy/{id}', [VisitantesController::class, 'destroy']);
 
+Route::get('/reporte', [ReportController::class,'reporteDep']);
+Route::get('/reporteEmp', [ReportController::class,'reporteEmp']);
+Route::get('/reporteEst', [ReportController::class,'reporteEst']);
+Route::get('/reporteTram', [ReportController::class,'reporteTram']);
+Route::get('/reporteVitt', [ReportController::class,'reporteVitt']);
+Route::get('/reporteVis', [ReportController::class,'reporteVis']);
 
 Auth::routes();
 

@@ -3,5 +3,7 @@
 @section('title','Inicio')
 
 @section('content')
-    <h1>Pantalla de inicio</h1>
+    <div style="margin: 30px">
+        <h1>Pantalla de inicio</h1>
+    </div>
 @endsection

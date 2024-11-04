@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Visitantes;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
 
 class VisitantesController extends Controller
 {
-    public function __construct() 
-    { 
-        $this->middleware('auth'); 
+    public function __construct(NotificationService $notificationService)
+    {
+      $this->middleware('auth'); 
+      $this->notificationService = $notificationService;
     }
     /**
      * Display a listing of the resource.
@@ -48,7 +51,8 @@ class VisitantesController extends Controller
         ]);
         Visitantes::create($data);
 
-        return redirect('visitantes/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El visitante ha sido guardado por $userName.", 'visitantes/show');
     }
 
     /**
@@ -87,7 +91,8 @@ class VisitantesController extends Controller
 
         $visitantes->save();
 
-        return redirect('/visitantes/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El visitante ha sido modificado por $userName.", 'visitantes/show');
     }
 
     /**

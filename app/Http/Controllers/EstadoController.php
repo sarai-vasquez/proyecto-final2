@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Estado;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
+
 
 class EstadoController extends Controller
 {
-    public function __construct() 
-    { 
-        $this->middleware('auth'); 
+    public function __construct(NotificationService $notificationService)
+    {
+      $this->middleware('auth'); 
+      $this->notificationService = $notificationService;
     }
     /**
      * Display a listing of the resource.
@@ -43,7 +47,9 @@ class EstadoController extends Controller
         ]);
         Estado::create($data);
 
-        return redirect('estado/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El estado ha sido guardado por $userName.", 'estado/show');
+
     }
 
     /**
@@ -76,7 +82,8 @@ class EstadoController extends Controller
 
         $estado->save();
 
-        return redirect('estado/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El estado ha sido modificado por $userName.", 'estado/show');
     }
 
     /**

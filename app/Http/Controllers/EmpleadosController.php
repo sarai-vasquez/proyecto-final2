@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Empleados;
 use App\Models\Departamento;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class EmpleadosController extends Controller
 {
-    public function __construct() 
-    { 
-        $this->middleware('auth'); 
+    public function __construct(NotificationService $notificationService)
+    {
+      $this->middleware('auth'); 
+      $this->notificationService = $notificationService;
     }
     /**
      * Display a listing of the resource.
@@ -49,7 +54,9 @@ class EmpleadosController extends Controller
         ]);
         Empleados::create($data);
 
-        return redirect('empleados/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El empleado ha sido guardado por $userName.", 'empleados/show');
+        
     }
 
     /**
@@ -86,7 +93,8 @@ class EmpleadosController extends Controller
         $empleados->updated_at = now();
 
         $empleados->save();
-        return redirect('/empleados/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El empleado ha sido modificado por $userName.", 'empleados/show');
     }
 
     /**

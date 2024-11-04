@@ -7,12 +7,15 @@ use App\Models\Visitas;
 use App\Models\Visitantes;
 use App\Models\Empleados;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
 
 class VisitasController extends Controller
 {
-    public function __construct() 
-    { 
-        $this->middleware('auth'); 
+    public function __construct(NotificationService $notificationService)
+    {
+      $this->middleware('auth'); 
+      $this->notificationService = $notificationService;
     }
     /**
      * Display a listing of the resource.
@@ -60,7 +63,9 @@ class VisitasController extends Controller
             'empleado'=> 'required',
         ]);
         Visitas::create($data);
-        return redirect('visitas/show');
+
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("La visita ha sido guardado por $userName.", 'visitas/show');
 
     }
 
@@ -103,7 +108,8 @@ class VisitasController extends Controller
         $visitas->updated_at = now();
 
         $visitas->save();
-        return redirect('visitas/show');
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("La visita ha sido modificada por $userName.", 'visitas/show');
     }
 
     /**

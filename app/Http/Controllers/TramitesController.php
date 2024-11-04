@@ -7,12 +7,15 @@ use App\Models\Tramites;
 use App\Models\Visitas;
 use App\Models\Estado;
 use Illuminate\Http\Request;
+use App\Services\NotificationService;
+use Illuminate\Support\Facades\Auth;
 
 class TramitesController extends Controller
 {
-    public function __construct() 
-    { 
-        $this->middleware('auth'); 
+    public function __construct(NotificationService $notificationService)
+    {
+      $this->middleware('auth'); 
+      $this->notificationService = $notificationService;
     }
     /**
      * Display a listing of the resource.
@@ -59,7 +62,9 @@ class TramitesController extends Controller
             'estado'=> 'required',
         ]);
         Tramites::create($data);
-        return redirect('tramites/show');
+
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El tramite ha sido guardado por $userName.", 'tramites/show');
     }
 
     /**
@@ -103,7 +108,9 @@ class TramitesController extends Controller
         $tramites->updated_at = now();
 
         $tramites->save();
-        return redirect('/tramites/show');
+
+        $userName = Auth::user()->name;
+        return $this->notificationService->notify("El tramite ha sido modificado por $userName.", 'tramites/show');
     }
 
     /**
