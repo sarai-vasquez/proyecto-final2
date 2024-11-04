@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-6">
                     Tipo 
-                    <input type="text" class="form-control" name="tipo">
+                    <input type="text" class="form-control" name="tipo" value="{{old('tipo')}}">
                     @error('tipo') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-6">
                     Fecha Inicio 
-                    <input type="datetime-local" class="form-control" name="fechaInicio">
+                    <input type="datetime-local" class="form-control" name="fechaInicio" value="{{old('fechaInicio')}}">
                     @error('fechaInicio') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-6">
                     Fecha Fin 
-                    <input type="datetime-local" class="form-control" name="fechaFin">
+                    <input type="datetime-local" class="form-control" name="fechaFin" value="{{old('fechaFin')}}">
                     @error('fechaFin') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-6">
                     Descripcion 
-                    <input type="text" class="form-control" name="descripcion">
+                    <input type="text" class="form-control" name="descripcion" value="{{old('descripcion')}}">
                     @error('descripcion') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>

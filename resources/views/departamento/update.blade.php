@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-6">
                     Nombre
-                    <input type="text" pattern="[A-Za-z]+" class="form-control" name="nombre" value="{{ $departamento->nombre }}">
+                    <input type="text" class="form-control" name="nombre" value="{{ $departamento->nombre }}">
                     @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -14,7 +12,7 @@
                 black; border-collapse: 
                 collapse; 
                 } th { 
-                background-color: rgb(248, 154, 162); 
+                background-color: burlywood; 
                 border:1px solid black; 
                 } td { 
                 border:1px solid black; 
@@ -25,6 +23,7 @@
         <h1 align="center">Listado de departamentos</h1>
         <hr><br> 
         <p>Reporte generado el {{ date('d/m/Y') }} Por {{ Auth::user()->name }}</p>
+       
         <table>
             <tr>
                 <th>Código</th>
@@ -35,7 +34,7 @@
             </tr> 
             @foreach ($data as $item) 
                 <tr>
-                    <td align="center">{{$item['codigo']}}</td>
+                    <td align="center" style="background-color: bisque">{{$item['codigo']}}</td>
                     <td>{{$item['nombre']}}</td>
                     <td>{{$item['ubicacion']}}</td>
                     <td>{{$item['jefe']}}</td>

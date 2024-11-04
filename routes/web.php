@@ -63,6 +63,11 @@ Route::get('/reporteTram', [ReportController::class,'reporteTram']);
 Route::get('/reporteVitt', [ReportController::class,'reporteVitt']);
 Route::get('/reporteVis', [ReportController::class,'reporteVis']);
 
+Route::post('/reporteTramFecha', [ReportController::class,'reporteTramFecha']);
+Route::post('/reporteDepFecha', [ReportController::class, 'reporteDepFecha']);
+Route::post('/reporteVisFecha', [ReportController::class, 'reporteVisFecha']);
+Route::post('/reporteVittFecha', [ReportController::class, 'reporteVittFecha']);
+
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

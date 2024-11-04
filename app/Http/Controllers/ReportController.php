@@ -30,32 +30,6 @@ class ReportController extends Controller
         return $pdf->stream('departamento.pdf'); 
     }
 
-    public function reporteDepFecha(Request $request) 
-    { 
-        $request->validate([
-            'fecha_inicio' => 'required|date',
-            'fecha_final' => 'required|date|after_or_equal:fecha_inicio',
-        ]);
-        // Extraer solo las fechas (sin horas)
-        $fechaInicio = date('Y-m-d', strtotime($request->fecha_inicio));
-        $fechaFinal = date('Y-m-d', strtotime($request->fecha_final));
-
-        // Extraer todos los departamento
-        $data = Departamento::select( 
-        "departamento.codigo", 
-        "departamento.nombre", 
-        "departamento.ubicacion", 
-        "departamento.jefe", 
-        "departamento.numeroEmpleados", 
-        ) 
-        ->whereDate('departamento.created_at', '>=', $fechaInicio) // Filtrar por fecha de inicio
-        ->whereDate('departamento.created_at', '<=', $fechaFinal) // Filtrar por fecha final
-
-        ->get(); 
-        // Cargar vista del reporte con la data
-        $pdf = Pdf::loadView('/reports/reportDep', compact('data')); 
-        return $pdf->stream('departamento.pdf'); 
-    }
 
     public function reporteEmp() 
     { 
@@ -88,6 +62,7 @@ class ReportController extends Controller
 
     public function reporteTram() 
     { 
+        
         // Extraer todos los departamento
         $data = Tramites::select( 
             "tramites.codigo", 
@@ -105,6 +80,8 @@ class ReportController extends Controller
         $pdf = Pdf::loadView('/reports/reportTram', compact('data')); 
         return $pdf->stream('tramites.pdf'); 
     }
+
+    
 
     public function reporteVitt() 
     { 
@@ -140,4 +117,103 @@ class ReportController extends Controller
         $pdf = Pdf::loadView('/reports/reportVis', compact('data')); 
         return $pdf->stream('visitas.pdf'); 
     }
+
+    public function reporteTramFecha(Request $request) 
+    { 
+        $request->validate([
+            'fecha_inicio' => 'required|date',
+            'fecha_final' => 'required|date|after_or_equal:fecha_inicio',
+        ]);
+        $fechaInicio = date('Y-m-d', strtotime($request->fecha_inicio));
+        $fechaFinal = date('Y-m-d', strtotime($request->fecha_final));
+        // Extraer todos los departamento
+        $data = Tramites::select( 
+            "tramites.codigo", 
+            "tramites.tipo", 
+            "tramites.fechaInicio", 
+            "tramites.fechaFin", 
+            "tramites.descripcion", 
+            "visitas.motivo as visita",
+            "estado.nombre as estado"
+        )
+        ->join("visitas", "visitas.codigo", "=", "tramites.visita") 
+        ->join("estado", "estado.codigo", "=", "tramites.estado") 
+        ->whereDate('tramites.created_at', '>=', $fechaInicio) // Filtrar por fecha de inicio
+        ->whereDate('tramites.created_at', '<=', $fechaFinal) // Filtrar por fecha final
+
+        ->get(); 
+        // Cargar vista del reporte con la data
+        $pdf = Pdf::loadView('/reports/reportTramFech', compact('data')); 
+        return $pdf->stream('tramites.pdf'); 
+    }
+    public function reporteDepFecha(Request $request) 
+    { 
+         /*$request->validate([
+           'fecha_inicio' => 'required|date',
+            'fecha_final' => 'required|date|after_or_equal:fecha_inicio',
+        ]);*/
+        // Extraer solo las fechas (sin horas)
+        $fechaInicio = date('Y-m-d', strtotime($request->fecha_inicio));
+        $fechaFinal = date('Y-m-d', strtotime($request->fecha_final));
+
+        // Extraer todos los departamento
+        $data = Departamento::select( 
+        "departamento.codigo", 
+        "departamento.nombre", 
+        "departamento.ubicacion", 
+        "departamento.jefe", 
+        "departamento.numeroEmpleados", 
+        ) 
+        ->whereDate('departamento.created_at', '>=', $fechaInicio) // Filtrar por fecha de inicio
+        ->whereDate('departamento.created_at', '<=', $fechaFinal) // Filtrar por fecha final
+
+        ->get(); 
+        // Cargar vista del reporte con la data
+        $pdf = Pdf::loadView('/reports/reportDepFech', compact('data')); 
+        return $pdf->stream('departamento.pdf'); 
+    }
+
+    public function reporteVisFecha(Request $request) 
+    { 
+        $fechaInicio = date('Y-m-d', strtotime($request->fecha_inicio));
+        $fechaFinal = date('Y-m-d', strtotime($request->fecha_final));
+        // Extraer todos los departamento
+        $data = Visitas::select( 
+            "visitas.codigo",
+            "visitas.fechaEntrada",
+            "visitas.fechaSalida",
+            "visitas.motivo",
+            "visitantes.nombre as visitante",
+            "empleados.nombre as empleado"
+        )
+        ->join("visitantes", "visitantes.codigo", "=", "visitas.visitante") 
+        ->join("empleados", "empleados.codigo", "=", "visitas.empleado") 
+        ->whereDate('visitas.created_at', '>=', $fechaInicio) // Filtrar por fecha de inicio
+        ->whereDate('visitas.created_at', '<=', $fechaFinal) // Filtrar por fecha final
+        ->get(); 
+        // Cargar vista del reporte con la data
+        $pdf = Pdf::loadView('/reports/reportVis', compact('data')); 
+        return $pdf->stream('visitas.pdf'); 
+    }
+    public function reporteVittFecha(Request $request) 
+    { 
+        $fechaInicio = date('Y-m-d', strtotime($request->fecha_inicio));
+        $fechaFinal = date('Y-m-d', strtotime($request->fecha_final));
+        // Extraer todos los departamento
+        $data = Visitantes::select( 
+            "visitantes.codigo",
+            "visitantes.nombre",
+            "visitantes.identificacion",
+            "visitantes.telefono",
+            "visitantes.correo"
+        )
+        ->whereDate('visitantes.created_at', '>=', $fechaInicio) // Filtrar por fecha de inicio
+        ->whereDate('visitantes.created_at', '<=', $fechaFinal) // Filtrar por fecha final
+        ->get(); 
+        // Cargar vista del reporte con la data
+        $pdf = Pdf::loadView('/reports/reportVitt', compact('data')); 
+        return $pdf->stream('visitantes.pdf'); 
+    }
+
+
 }

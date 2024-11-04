@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-6">
                     Nombre 
-                    <input type="text" class="form-control" name="nombre">
+                    <input type="text" class="form-control" name="nombre" value="{{old('nombre')}}">
                     @error('nombre') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-6">
                     Ubicacion 
-                    <input type="text" class="form-control" name="ubicacion">
+                    <input type="text" class="form-control" name="ubicacion" value="{{old('ubicacion')}}">
                     @error('ubicacion') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-6">
                     Jefe 
-                    <input type="text" pattern="[A-Za-z/s]+" class="form-control" name="jefe">
+                    <input type="text" class="form-control" name="jefe" value="{{old('jefe')}}">
                     @error('jefe') 
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>

@@ -28,6 +28,10 @@
         {{-- Botón para ir al formulario de agregar departamento --}}
         <a class="btn btn-danger btn-sm" href="/departamento/create">Agregar nuevo departamento</a>
         <a class="btn btn-danger btn-sm" target="_blank" href="/reporte">Reporte</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Reporte por fecha
+        </button>
+
         <table class="table table-hover table-bordered mt-2">
             <tr>
                 <td>Código</td>
@@ -70,4 +74,43 @@
         }
     })
  </script>
- @endsection
+ <script>
+    document.getElementById('reporteForm').addEvenlistener('submit', function(event){
+        const fechaInicio = new Date(document.getElementById('fecha-inicio').value);
+        const fechaFinal = new Date(document.getElementById('fecha-final').value);
+
+        if (fechaFinal < fechaInicio) {
+            event.preventDefault(); // Evitar el envío del formulario
+            alert('La fecha final no puede ser menor que la fecha de inicio.'); // Mensaje de alerta
+        }
+    })
+</script>
+ @endsection  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/reporteDepFecha" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="fecha-inicio" class="col-form-label">Fecha Inicio:</label>
+                    <input type="date" class="form-control" name="fecha_inicio" id="fecha-inicio" required>
+                </div>
+                <div class="mb-3">
+                    <label for="fecha-final" class="col-form-label">Fecha Final:</label>
+                    <input type="date" class="form-control" name="fecha_final" id="fecha-final" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Crear reporte</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
